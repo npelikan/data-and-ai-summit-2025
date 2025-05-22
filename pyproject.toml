@@ -3,7 +3,7 @@ name = "data-and-ai-summit-2025"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "chatlas>=0.7.1",
     "databricks-sdk>=0.54.0",
