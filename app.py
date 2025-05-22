@@ -14,6 +14,8 @@ from scipy import stats
 import numpy as np
 from posit import connect
 from databricks.sdk import WorkspaceClient
+from posit.connect.external.databricks import ConnectStrategy, sql_credentials, databricks_config
+from posit.workbench.external.databricks import WorkbenchStrategy
 
 
 matplotlib.use("Agg")  # Use Agg backend for matplotlib
@@ -81,28 +83,28 @@ app_ui = ui.page_sidebar(
 
 # Define server
 def server(input, output, session):
-    # Configure querychat
-    # Use Connect managed credentials if appropriate
-    if os.getenv("RSTUDIO_PRODUCT") == "CONNECT":
-        user_session_token = session.http_conn.headers.get(
-            "Posit-Connect-User-Session-Token"
-        )
-        oauth_token = (
-            connect.Client()
-            .oauth.get_credentials(user_session_token)
-            .get("access_token")
+    session_token = session.http_conn.headers.get(
+        "Posit-Connect-User-Session-Token"
+    )
+
+    if not os.getenv("RSTUDIO_PRODUCT") == "CONNECT":
+        workbench_strategy = WorkbenchStrategy()
+    else:
+        workbench_strategy = None
+
+    cfg = databricks_config(
+        posit_workbench_strategy=workbench_strategy,
+        posit_connect_strategy=ConnectStrategy(user_session_token=session_token),
+        host=f"https://{os.getenv('DATABRICKS_HOST')}",
         )
 
-        databricks_client = WorkspaceClient(token=oauth_token)
-    # otherwise, use Databricks Native Auth (if in PWB or local)
+    databricks_client = WorkspaceClient(config=cfg)
 
     def databricks_claude(system_prompt: str) -> chatlas.Chat:
         return chatlas.ChatDatabricks(
             model="databricks-claude-3-7-sonnet",
             system_prompt=system_prompt,
-            workspace_client=databricks_client
-            if os.getenv("RSTUDIO_PRODUCT") == "CONNECT"
-            else None,
+            workspace_client=databricks_client,
         )
 
     querychat_config = querychat.init(
