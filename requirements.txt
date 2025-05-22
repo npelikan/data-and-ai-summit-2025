@@ -233,6 +233,7 @@ traitlets==5.14.3
     #   matplotlib-inline
 typing-extensions==4.13.2
     # via
+    #   anyio
     #   anywidget
     #   htmltools
     #   openai
