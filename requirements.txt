@@ -129,6 +129,7 @@ packaging==25.0
     #   htmltools
     #   matplotlib
     #   plotly
+    #   posit-sdk
     #   shiny
 pandas==2.2.3
     # via
@@ -143,6 +144,8 @@ pillow==11.2.1
 platformdirs==4.3.8
     # via jupyter-core
 plotly==6.1.1
+    # via data-and-ai-summit-2025 (pyproject.toml)
+posit-sdk==0.10.0
     # via data-and-ai-summit-2025 (pyproject.toml)
 prompt-toolkit==3.0.51
     # via
@@ -191,6 +194,7 @@ requests==2.32.3
     # via
     #   chatlas
     #   databricks-sdk
+    #   posit-sdk
 rich==14.0.0
     # via chatlas
 rsa==4.9.1
@@ -232,6 +236,7 @@ typing-extensions==4.13.2
     #   anywidget
     #   htmltools
     #   openai
+    #   posit-sdk
     #   pydantic
     #   pydantic-core
     #   shiny
