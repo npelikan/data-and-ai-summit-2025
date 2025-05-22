@@ -99,7 +99,18 @@ server <- function(input, output, session) {
 
   output$stage_time_distribution_plot <- renderPlotly({
     p <- querychat$df() |> 
-      filter(!is.na(elapsed)) |> 
+      filter(!is.na(elapsed)) |>
+      # Group by year and stage to identify outliers within each stage
+      group_by(year, stage_results_id) |>
+      # Remove times that are extreme outliers (beyond 1.5 IQR)
+      mutate(
+        q1 = quantile(elapsed, 0.25),
+        q3 = quantile(elapsed, 0.75),
+        iqr = q3 - q1,
+        is_outlier = elapsed < (q1 - 1.5 * iqr) | elapsed > (q3 + 1.5 * iqr)
+      ) |>
+      filter(!is_outlier) |>
+      ungroup() |>
       ggplot(aes(x = elapsed, group = year)) +
       geom_density(alpha = 0.5) +
       labs(x = "Stage Time (seconds)",
