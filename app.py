@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
@@ -11,15 +12,14 @@ import chatlas
 import querychat
 import re
 from scipy import stats
-import numpy as np
-from posit import connect
 from databricks.sdk import WorkspaceClient
-from posit.connect.external.databricks import ConnectStrategy, sql_credentials, databricks_config
+from posit.connect.external.databricks import ConnectStrategy, databricks_config
 from posit.workbench.external.databricks import WorkbenchStrategy
-from databricks.sdk.core import ApiClient, databricks_cli
+from databricks.sdk.core import databricks_cli
 from querychat.datasource import SQLAlchemySource
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from posit.connect import _utils
 
 load_dotenv()
 
@@ -96,7 +96,7 @@ def server(input, output, session):
     w = WorkspaceClient(
         config = databricks_config(
             posit_default_strategy = databricks_cli,
-            posit_workbench_strategy = WorkbenchStrategy(),
+            posit_workbench_strategy = WorkbenchStrategy() if _utils.is_workbench() else None,
             posit_connect_strategy = ConnectStrategy(user_session_token = session_token)
         )
     )
