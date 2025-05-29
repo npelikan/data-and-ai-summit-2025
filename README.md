@@ -3,7 +3,7 @@
 
 This repository contains slides and examples used at a [talk](https://www.databricks.com/dataaisummit/session/next-gen-data-science-how-posit-and-databricks-are-transforming) given at Data and AI Summit in June 2025.
 
-![Tour de France Dashboard Screenshot](img/r-dashboard-screenshot.png)
+![Tour de France Dashboard Screenshot](img/databricks-tdf-dashboard.png)
 
 There are two example Shiny dashboards in this repository: [`app.R`](app.R) and
 [`app.py`](app.py). As suggested by their names, they are nearly identical
@@ -39,21 +39,31 @@ the Tour de France dataset in various ways.
 ### Accessing Databricks Foundational Models
 The app uses Claude 3.7 Sonnet via Databricks in order to convert natural
 language queries into SQL filters. This is done via the [`querychat`
-package](https://github.com/posit-dev/querychat) for both Python and R. The
-only user input to the app is the natural language query, which is then
-converted into SQL and run against the dataset. The results are displayed in
-the app, allowing users to explore the data in a more intuitive and flexible
-way.
+package](https://github.com/posit-dev/querychat) for both Python and R. The only
+user input to the app is the natural language query, which is then converted
+into SQL. This generated SQL is then submitted to Databricks for execution and
+the results are displayed in the app, allowing users to explore the data in a
+more intuitive and flexible way.
 
 ### Deployment
-The applications can be deployed to Posit Connect or (in the case of the Python
-app) as a Databricks App. Once deployed, these apps can be shared with others.
+The applications can be deployed to Posit Connect or, in the case of the Python
+app, as a [Databricks App](https://www.databricks.com/product/databricks-apps).
+Once deployed, these apps can be easily shared with others.
 
 ### OAuth Support
 Posit Workbench and Posit Connect both support Databricks OAuth. This
 dramatically simplifies the process of connecting to Databricks from Posit.
 Developers using Posit Workbench can sign into their Databricks workspace when
 they start a session and then any tool that interacts with Databricks (e.g.,
-`querychat`) will automatically use the OAuth token for authentication. Once
-deployed to Posit Connect, these apps use OAuth tokens available within Posit
-Connect to securely connect to Databricks.
+`querychat`) will automatically use the OAuth token for authentication:
+
+![Screenshot of session launch dialogue in Posit Workbench showing Databricks workspace selection](img/session-launch.png)
+
+Once deployed to Posit Connect, these apps use OAuth tokens available within
+Posit Connect to securely connect to Databricks. This means that unique visitors
+to the same application can see different views of the data depending on their
+Unity Catalog permissions. In this example app certain users are prevented from
+seeing the stage results of cyclists convicted of doping. When these users visit
+the dashboard, doped cyclists are not shown:
+
+![Screenshot of a query asking about Lance Armstrong when no data for Lance is included](img/lance-query.png)
