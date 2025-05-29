@@ -16,7 +16,12 @@ from posit import connect
 from databricks.sdk import WorkspaceClient
 from posit.connect.external.databricks import ConnectStrategy, sql_credentials, databricks_config
 from posit.workbench.external.databricks import WorkbenchStrategy
+from databricks.sdk.core import ApiClient, databricks_cli
+from querychat.datasource import SQLAlchemySource
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
 
+load_dotenv()
 
 matplotlib.use("Agg")  # Use Agg backend for matplotlib
 
@@ -83,36 +88,31 @@ app_ui = ui.page_sidebar(
 
 # Define server
 def server(input, output, session):
-    session_token = session.http_conn.headers.get(
-        "Posit-Connect-User-Session-Token"
-    )
-
-    if not os.getenv("RSTUDIO_PRODUCT") == "CONNECT":
-        workbench_strategy = WorkbenchStrategy()
-    else:
-        workbench_strategy = None
-
-    cfg = databricks_config(
-        posit_workbench_strategy=workbench_strategy,
-        posit_connect_strategy=ConnectStrategy(user_session_token=session_token),
-        host=f"https://{os.getenv('DATABRICKS_HOST')}",
-        )
-
-    databricks_client = WorkspaceClient(config=cfg)
-
     def databricks_claude(system_prompt: str) -> chatlas.Chat:
         return chatlas.ChatDatabricks(
             model="databricks-claude-3-7-sonnet",
-            system_prompt=system_prompt,
-            workspace_client=databricks_client,
+            system_prompt=system_prompt
         )
 
+    # Add Databricks SQLAlchemy connection
+    w = WorkspaceClient()
+
+    access_token    = w.tokens.create().token_value
+    server_hostname = w.config.hostname
+    http_path       = os.getenv("DATABRICKS_HTTP_PATH")
+    catalog         = os.getenv("DATABRICKS_CATALOG")
+    schema          = os.getenv("DATABRICKS_SCHEMA")
+
     querychat_config = querychat.init(
-        stages,
-        "stages",
+        SQLAlchemySource(
+            create_engine(
+                url=f"databricks://token:{access_token}@{server_hostname}?" +
+                    f"http_path={http_path}&catalog={catalog}&schema={schema}"
+            ),
+        "stages"),
         greeting=greeting,
         data_description=data_desc,
-        create_chat_callback=databricks_claude,
+        create_chat_callback=databricks_claude
     )
 
     # Initialize querychat server object
@@ -121,9 +121,7 @@ def server(input, output, session):
     # Create reactive data frame from chat
     @reactive.Calc
     def stages_data():
-        # Make rank column numeric for proper filtering
         df = chat["df"]()
-        df["rank"] = pd.to_numeric(df["rank"], errors="coerce")
         return df
 
     # Most Stage Wins Plot
