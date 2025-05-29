@@ -139,8 +139,8 @@ wheels = [
 
 [[package]]
 name = "chatlas"
-version = "0.7.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.7.2.dev5+gb91c020"
+source = { git = "https://github.com/posit-dev/chatlas#b91c020a555917c1be5ae2462496de25d82c529d" }
 dependencies = [
     { name = "jinja2" },
     { name = "openai" },
@@ -148,10 +148,6 @@ dependencies = [
     { name = "pydantic" },
     { name = "requests" },
     { name = "rich" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e1/eb/10e94c390d194f260e719ccc64472b4dddeaa01abbc6faa7092b5a38486b/chatlas-0.7.1.tar.gz", hash = "sha256:cfaf0b10608f9a86f69aa27130376916716181a4fa71e6fc67393f73062cc2bf", size = 1254517, upload-time = "2025-05-10T16:50:18.828Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a9/c8/c3f323a067069a9717d348e0cadfca1e7ee5e4be2ae0767ef43106dbd427/chatlas-0.7.1-py3-none-any.whl", hash = "sha256:c4ffa9a718ff71e4a3cf2946292ec17468cd7c76e54ff816427657e3d91188f6", size = 83196, upload-time = "2025-05-10T16:50:17.125Z" },
 ]
 
 [[package]]
@@ -287,7 +283,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "chatlas", specifier = ">=0.7.1" },
+    { name = "chatlas", git = "https://github.com/posit-dev/chatlas" },
     { name = "databricks-sdk", specifier = ">=0.54.0" },
     { name = "databricks-sql-connector", specifier = ">=4.0.3" },
     { name = "databricks-sqlalchemy", specifier = ">=2.0.6" },

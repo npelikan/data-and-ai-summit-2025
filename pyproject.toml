@@ -28,3 +28,4 @@ dev-dependencies = [
 
 [tool.uv.sources]
 querychat = { git = "https://github.com/posit-dev/querychat.git", subdirectory = "python-package", rev = "refs/pull/5/head" }
+chatlas = { git = "https://github.com/posit-dev/chatlas" }
