@@ -28,16 +28,11 @@ matplotlib.use("Agg")  # Use Agg backend for matplotlib
 # Set ggplot style for matplotlib
 plt.style.use("ggplot")
 
-# Load data
-data_path = Path(os.path.join("data", "stages.csv"))
-stages = pd.read_csv(data_path)
-
-
+# Querychat configuration
 with open(Path(__file__).parent / "greeting.md", "r") as f:
     greeting = f.read()
 with open(Path(__file__).parent / "data_description.md", "r") as f:
     data_desc = f.read()
-
 
 # Create UI
 app_ui = ui.page_sidebar(
@@ -84,7 +79,6 @@ app_ui = ui.page_sidebar(
         "Tour de France Analysis",
     ),
 )
-
 
 # Define server
 def server(input, output, session):
@@ -398,7 +392,6 @@ def server(input, output, session):
         )
 
         return fig
-
 
 # Create and run the Shiny app
 app = App(app_ui, server)
