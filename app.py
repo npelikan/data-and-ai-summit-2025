@@ -88,15 +88,27 @@ app_ui = ui.page_sidebar(
 
 # Define server
 def server(input, output, session):
+    # Databricks workspace config
+    session_token = session.http_conn.headers.get(
+        "Posit-Connect-User-Session-Token"
+    )
+    
+    w = WorkspaceClient(
+        config = databricks_config(
+            posit_default_strategy = databricks_cli,
+            posit_workbench_strategy = WorkbenchStrategy(),
+            posit_connect_strategy = ConnectStrategy(user_session_token = session_token)
+        )
+    )
+
     def databricks_claude(system_prompt: str) -> chatlas.Chat:
         return chatlas.ChatDatabricks(
             model="databricks-claude-3-7-sonnet",
-            system_prompt=system_prompt
+            system_prompt=system_prompt,
+            workspace_client = w
         )
 
     # Add Databricks SQLAlchemy connection
-    w = WorkspaceClient()
-
     access_token    = w.tokens.create().token_value
     server_hostname = w.config.hostname
     http_path       = os.getenv("DATABRICKS_HTTP_PATH")
