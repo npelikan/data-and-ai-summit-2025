@@ -295,7 +295,7 @@ requires-dist = [
     { name = "querychat", git = "https://github.com/posit-dev/querychat.git?subdirectory=python-package&rev=refs%2Fpull%2F5%2Fhead" },
     { name = "scipy", specifier = ">=1.15.3" },
     { name = "seaborn", specifier = ">=0.13.2" },
-    { name = "shiny", specifier = ">=1.4.0" },
+    { name = "shiny", git = "https://github.com/posit-dev/py-shiny.git?rev=disable-permessage-deflate" },
     { name = "shinywidgets", specifier = ">=0.6.2" },
 ]
 
@@ -1728,8 +1728,8 @@ wheels = [
 
 [[package]]
 name = "shiny"
-version = "1.4.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.4.1.dev16"
+source = { git = "https://github.com/posit-dev/py-shiny.git?rev=disable-permessage-deflate#18d74ae051dbfe7d65cb7028bcce57eb24ba55c5" }
 dependencies = [
     { name = "appdirs" },
     { name = "asgiref" },
@@ -1750,10 +1750,6 @@ dependencies = [
     { name = "uvicorn", marker = "sys_platform != 'emscripten'" },
     { name = "watchfiles", marker = "sys_platform != 'emscripten'" },
     { name = "websockets" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/6b/dc/1f1da052f0af709ee73dc07ef12f4c5395eff861e430143ae115fabdc3bb/shiny-1.4.0.tar.gz", hash = "sha256:05c709c2a074b9e9f5a82065460815ff40bc686286bacfcab5195a69f3ae759b", size = 4837146, upload-time = "2025-04-08T16:49:45.406Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f5/e8/ae54ce930d965211c77b28a8c3792f78a80ad1bd012bbb05000176dd246c/shiny-1.4.0-py3-none-any.whl", hash = "sha256:c7748d0cd32696477613b9c00664320ea1604b9d9770a2ec2e8ea7ea5e0b44b4", size = 3870396, upload-time = "2025-04-08T16:49:43.516Z" },
 ]
 
 [[package]]
