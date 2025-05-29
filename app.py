@@ -13,7 +13,10 @@ import querychat
 import re
 from scipy import stats
 from databricks.sdk import WorkspaceClient
-from posit.connect.external.databricks import ConnectStrategy, databricks_config
+from posit.connect.external.databricks import (
+    ConnectStrategy,
+    databricks_config
+)
 from posit.workbench.external.databricks import WorkbenchStrategy
 from databricks.sdk.core import databricks_cli
 from querychat.datasource import SQLAlchemySource
@@ -86,13 +89,17 @@ def server(input, output, session):
     session_token = session.http_conn.headers.get(
         "Posit-Connect-User-Session-Token"
     )
+
+    # Databricks config
+    cfg = databricks_config(
+        posit_default_strategy = databricks_cli,
+        posit_workbench_strategy = WorkbenchStrategy() if _utils.is_workbench() else None,
+        posit_connect_strategy = ConnectStrategy(user_session_token = session_token),
+        host = f"https://{os.getenv('DATABRICKS_HOST')}"
+    )
     
     w = WorkspaceClient(
-        config = databricks_config(
-            posit_default_strategy = databricks_cli,
-            posit_workbench_strategy = WorkbenchStrategy() if _utils.is_workbench() else None,
-            posit_connect_strategy = ConnectStrategy(user_session_token = session_token)
-        )
+        config = cfg
     )
 
     def databricks_claude(system_prompt: str) -> chatlas.Chat:
