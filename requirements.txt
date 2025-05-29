@@ -84,10 +84,10 @@ idna==3.10
     #   anyio
     #   httpx
     #   requests
-ipython==9.2.0
-    # via ipywidgets
-ipython-pygments-lexers==1.1.1
-    # via ipython
+ipython==8.36.0
+    # via
+    #   data-and-ai-summit-2025 (pyproject.toml)
+    #   ipywidgets
 ipywidgets==8.1.7
     # via
     #   anywidget
@@ -200,7 +200,6 @@ pydantic-core==2.33.2
 pygments==2.19.1
     # via
     #   ipython
-    #   ipython-pygments-lexers
     #   rich
 pyparsing==3.2.3
     # via matplotlib
