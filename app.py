@@ -14,6 +14,7 @@ from scipy import stats
 import numpy as np
 from posit import connect
 from databricks.sdk import WorkspaceClient
+from databricks.sdk.core import databricks_cli
 from posit.connect.external.databricks import ConnectStrategy, sql_credentials, databricks_config
 from posit.workbench.external.databricks import WorkbenchStrategy
 
@@ -83,20 +84,16 @@ app_ui = ui.page_sidebar(
 
 # Define server
 def server(input, output, session):
+
     session_token = session.http_conn.headers.get(
         "Posit-Connect-User-Session-Token"
     )
 
-    if not os.getenv("RSTUDIO_PRODUCT") == "CONNECT":
-        workbench_strategy = WorkbenchStrategy()
-    else:
-        workbench_strategy = None
-
     cfg = databricks_config(
-        posit_workbench_strategy=workbench_strategy,
-        posit_connect_strategy=ConnectStrategy(user_session_token=session_token),
-        host=f"https://{os.getenv('DATABRICKS_HOST')}",
-        )
+        posit_default_strategy=databricks_cli,
+        # posit_workbench_strategy=WorkbenchStrategy(),
+        posit_connect_strategy=ConnectStrategy(user_session_token=session_token)
+    )
 
     databricks_client = WorkspaceClient(config=cfg)
 
