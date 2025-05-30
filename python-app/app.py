@@ -92,7 +92,6 @@ def server(input, output, session):
 
     # Databricks config
     cfg = databricks_config(
-        posit_default_strategy = databricks_cli,
         posit_workbench_strategy = WorkbenchStrategy() if _utils.is_workbench() else None,
         posit_connect_strategy = ConnectStrategy(user_session_token = session_token),
         host = f"https://{os.getenv('DATABRICKS_HOST')}"

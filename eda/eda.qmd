@@ -1,0 +1,77 @@
+---
+title: "TdF Stages EDA"
+format: html
+---
+
+## Python EDA
+```{python}
+import ibis
+import os
+import pandas as pd
+from databricks.sdk import WorkspaceClient
+from dotenv import load_dotenv
+
+load_dotenv()
+```
+
+```{python}
+w = WorkspaceClient()
+w.current_user.me().user_name
+w.config.hostname
+```
+
+```{python}
+con = ibis.databricks.connect(
+    server_hostname = w.config.hostname,
+    http_path = os.getenv("DATABRICKS_HTTP_PATH"),
+    access_token = w.tokens.create().token_value,
+    catalog = os.getenv("DATABRICKS_CATALOG"),
+    schema = os.getenv("DATABRICKS_SCHEMA")
+)
+```
+
+The data represents stage results from the Tour de France.
+
+```{python}
+stages = con.table("stages")
+stages
+```
+
+Calculate the total number of unique riders in the Tour de France
+
+```{python}
+stages.rider.nunique().execute()
+```
+Visualize the distribution of stage completion times
+```{python}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 6))
+plt.hist(stages.elapsed.execute(), bins=50)
+plt.xlabel('Elapsed Time')
+plt.ylabel('Frequency')
+plt.title('Distribution of Stage Elapsed Times')
+plt.show()
+```
+
+## R EDA
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+con <- DBI::dbConnect(
+    drv = odbc::databricks(),
+    httpPath = "/sql/1.0/warehouses/eb850c816cb7818d",
+    catalog = "jb-demos",
+    schema = "tdf"
+)
+
+stages <- tbl(con, "stages")
+stages |>
+    head(1000) |>
+    collect() |>
+    View()
+```
