@@ -36,6 +36,8 @@ with open(Path(__file__).parent / "greeting.md", "r") as f:
     greeting = f.read()
 with open(Path(__file__).parent / "data_description.md", "r") as f:
     data_desc = f.read()
+with open(Path(__file__).parent / "instructions.md", "r") as f:
+    instructions = f.read()
 
 # Create UI
 app_ui = ui.page_sidebar(
@@ -124,7 +126,8 @@ def server(input, output, session):
         "stages"),
         greeting=greeting,
         data_description=data_desc,
-        create_chat_callback=databricks_claude
+        create_chat_callback=databricks_claude,
+        extra_instructions=instructions
     )
 
     # Initialize querychat server object
