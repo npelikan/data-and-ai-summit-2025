@@ -3,14 +3,21 @@
 
 This repository contains slides and examples used at a [talk](https://www.databricks.com/dataaisummit/session/next-gen-data-science-how-posit-and-databricks-are-transforming) given at Data and AI Summit in June 2025.
 
-![Tour de France Dashboard Screenshot](img/databricks-tdf-dashboard.png)
+![Tour de France Dashboard Screenshot](img/positron-tdf-dashboard.png)
 
-There are two example Shiny dashboards in this repository: [`app.R`](app.R) and
-[`app.py`](app.py). As suggested by their names, they are nearly identical
+There are two example Shiny dashboards in this repository: [`app.R`](r-app/app.R) and
+[`app.py`](python-app/app.py). As suggested by their names, they are nearly identical
 dashboards, one written in R and the other in Python. Both dashboards are
 designed to analyze the Tour de France stages dataset that was provided as part
 of the [TidyTuesday
 challenge](https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-04-07/readme.md).
+
+### Data Prep
+The data can be loaded into Databricks from the `.parquet` file located at
+[`data/stages.parquet`](data/stages.parquet). Once loaded into Databricks, it
+can be accessed and queried by the example assets in this repository. A Unity
+Catalog filter for doped cyclists can be created by using
+[`data/doped-filter.sql`](data/doped-filter.sql).
 
 ### Positron for Data Analysis and App Development
 Positron is a next-generation data science IDE from Posit. It provides many of
@@ -49,6 +56,8 @@ more intuitive and flexible way.
 The applications can be deployed to Posit Connect or, in the case of the Python
 app, as a [Databricks App](https://www.databricks.com/product/databricks-apps).
 Once deployed, these apps can be easily shared with others.
+
+![Screenshot of the Tour de France dashboard published as a Databricks App](img/databricks-app-deploy.png)
 
 ### OAuth Support
 Posit Workbench and Posit Connect both support Databricks OAuth. This
