@@ -1,0 +1,8 @@
+command: ['shiny', 'run', 'app.py']
+env:
+  - name: 'DATABRICKS_HTTP_PATH'
+    value: '/sql/1.0/warehouses/eb850c816cb7818d'
+  - name: 'DATABRICKS_CATALOG'
+    value: 'jb-demos'
+  - name: 'DATABRICKS_SCHEMA'
+    value: 'tdf'

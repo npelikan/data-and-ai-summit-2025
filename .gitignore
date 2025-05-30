@@ -1,6 +1,7 @@
-.venv
-.env
+.venv/
 .Renviron
 README.html
 README_files/
 tmp/
+.posit/
+.databricks/

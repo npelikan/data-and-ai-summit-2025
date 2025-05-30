@@ -1,7 +1,7 @@
 [project]
 name = "data-and-ai-summit-2025"
 version = "0.1.0"
-description = "Add your description here"
+description = "querychat example app"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -10,9 +10,12 @@ dependencies = [
     "databricks-sql-connector>=4.0.3",
     "databricks-sqlalchemy>=2.0.6",
     "dotenv>=0.9.9",
+    "ibis>=3.3.0",
+    "ibis-framework[databricks]>=10.5.0",
     "ipython==8.36",
     "matplotlib>=3.10.3",
     "pandas>=2.2.3",
+    "pip>=25.1.1",
     "plotly>=6.1.1",
     "posit-sdk>=0.10.0",
     "querychat",
@@ -29,5 +32,5 @@ dev-dependencies = [
 
 [tool.uv.sources]
 chatlas = { git = "https://github.com/posit-dev/chatlas" }
-shiny = { git = "https://github.com/posit-dev/py-shiny.git", rev = "disable-permessage-deflate" }
 querychat = { git = "https://github.com/posit-dev/querychat.git", subdirectory = "python-package", rev = "refs/pull/5/head" }
+shiny = { git = "https://github.com/posit-dev/py-shiny.git", rev = "disable-permessage-deflate" }
