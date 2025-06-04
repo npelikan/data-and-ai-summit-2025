@@ -1,7 +1,9 @@
 # Next-Gen Data Science
 ## How Posit and Databricks Are Transforming Analytics at Scale
 
-This repository contains slides and examples used at a [talk](https://www.databricks.com/dataaisummit/session/next-gen-data-science-how-posit-and-databricks-are-transforming) given at Data and AI Summit in June 2025.
+This repository contains [slides](slides/slides.pdf) and examples used at a
+[talk](https://www.databricks.com/dataaisummit/session/next-gen-data-science-how-posit-and-databricks-are-transforming)
+given at Data and AI Summit in June 2025.
 
 ![Tour de France Dashboard Screenshot](img/positron-tdf-dashboard.png)
 
