@@ -3,20 +3,29 @@ library(bslib)
 library(tidyverse)
 library(querychat)
 library(plotly)
+dotenv::load_dot_env()
+
 
 # ggplot theme
 theme_set(theme_minimal())
 
-# Load data
-stages <- read_csv(here::here("data", "stages.csv"))
+# Connect to databricks for database source
+stages <- database_source(
+    conn = DBI::dbConnect(
+      odbc::databricks(),
+      httpPath = "/sql/1.0/warehouses/e985c33f1db7502f"
+    ),
+    table_name = "jb-demos.tdf.stages"
+)
+
 
 # Querychat config
 querychat_config <- querychat_init(
   stages,
   # Configure Databricks Claude as the underlying LLM
-  # create_chat_func = purrr::partial(ellmer::chat_databricks(model = "databricks-claude-3-7-sonnet")),
-  greeting = readLines(here::here("greeting.md")),
-  data_description = readLines(here::here("data_description.md"))
+  create_chat_func = purrr::partial(ellmer::chat_databricks, model = "databricks-claude-3-7-sonnet"),
+  greeting = readLines(here::here("r-app", "greeting.md")),
+  data_description = readLines(here::here("r-app", "data_description.md"))
 )
 
 ui <- page_sidebar(

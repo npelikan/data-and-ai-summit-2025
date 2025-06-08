@@ -5,3 +5,5 @@ README_files/
 tmp/
 .posit/
 .databricks/
+r-app/.env
+.DS_Store
